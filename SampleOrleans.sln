@@ -6,6 +6,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{19F72545-A6C3-48DC-A262-EC28C3FC58A3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grains", "Grains\Grains.csproj", "{5AD88270-3F1C-4180-8B8E-65F0C9553DDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrainInterfaces", "GrainInterfaces\GrainInterfaces.csproj", "{492B2E84-6F84-4DAC-8764-F4DBF3A8AC64}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +28,13 @@ Global
 		{19F72545-A6C3-48DC-A262-EC28C3FC58A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19F72545-A6C3-48DC-A262-EC28C3FC58A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19F72545-A6C3-48DC-A262-EC28C3FC58A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AD88270-3F1C-4180-8B8E-65F0C9553DDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AD88270-3F1C-4180-8B8E-65F0C9553DDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AD88270-3F1C-4180-8B8E-65F0C9553DDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AD88270-3F1C-4180-8B8E-65F0C9553DDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{492B2E84-6F84-4DAC-8764-F4DBF3A8AC64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{492B2E84-6F84-4DAC-8764-F4DBF3A8AC64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{492B2E84-6F84-4DAC-8764-F4DBF3A8AC64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{492B2E84-6F84-4DAC-8764-F4DBF3A8AC64}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

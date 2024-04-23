@@ -2,32 +2,50 @@
 
 namespace API.Controllers;
 
-using Azure.Storage.Queues;
-using Domain.Constants;
 using Domain.Withdrawal.Models;
-using Microsoft.Extensions.Azure;
-using Newtonsoft.Json;
+using GrainInterfaces.StorageQueue;
 
 [Route("api/generate-data/[action]")]
 [ApiController]
 public class GenerateDataController : Controller
 {
-  private readonly QueueServiceClient _queueServiceClient;
+  private readonly IClusterClient _clusterClient;
 
-  public GenerateDataController(IAzureClientFactory<QueueServiceClient> queueServiceClientFactory)
+  public GenerateDataController(IClusterClient clusterClient)
   {
-    _queueServiceClient = queueServiceClientFactory.CreateClient(QueueNames.StorageQueue);
+    _clusterClient = clusterClient;
   }
 
   [HttpPut]
   public async Task<IActionResult> Withdrawal([FromBody] WithdrawalRequest withdrawal)
   {
-    var client = _queueServiceClient.GetQueueClient(QueueNames.WithdrawalIngest);
-    await client.CreateIfNotExistsAsync();
-    var bytes = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(withdrawal));
-    await client.SendMessageAsync(Convert.ToBase64String(bytes));
-
+    var guid = Guid.NewGuid();
+    var producer = _clusterClient.GetGrain<IWithdrawalRequestProducerGrain>(guid.ToString());
+    await producer.Publish(withdrawal, guid);
     // Generate data
+    return Ok();
+  }
+
+  [HttpPut("{count:int}")]
+  public async Task<IActionResult> BatchWithdrawals(int count)
+  {
+    // create a batch of withdrawal requests
+    var batch = Enumerable.Range(0, count)
+      .Select(i => new WithdrawalRequest(
+        Guid.NewGuid().ToString(),
+        "NL02ABNA0123456789",
+        "player1",
+        100
+      ));
+
+    // publish each withdrawal request in parallel
+    await Parallel.ForEachAsync(batch, async (withdrawal, tkn) =>
+    {
+      var guid = Guid.NewGuid();
+      var producer = _clusterClient.GetGrain<IWithdrawalRequestProducerGrain>(guid.ToString());
+      await producer.Publish(withdrawal, guid);
+    });
+
     return Ok();
   }
 }
